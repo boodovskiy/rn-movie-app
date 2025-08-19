@@ -12,7 +12,6 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const router = useRouter();
-  a;
 
   const {
     data: movies,
