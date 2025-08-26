@@ -5,6 +5,20 @@ import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
 
+interface MovieInfoProps {
+  label: string;
+  value?: string | number | null;
+}
+
+const MovieInfo = ({ label, value }: MovieInfoProps) => (
+  <View className="flex-col items-start justify-center mt-5">
+    <Text className="text-light-200 font-normal text-sm">{label}</Text>
+    <Text className="text-light-200 font-bold text-sm mt-2">
+      {value || 'NA'}
+    </Text>
+  </View>
+);
+
 const MovieDetails = () => {
   const { id } = useLocalSearchParams();
 
@@ -41,6 +55,30 @@ const MovieDetails = () => {
               ({movie?.vote_count} votes)
             </Text>
           </View>
+
+          <MovieInfo label="Overview" value={movie?.overview} />
+          <MovieInfo
+            label="Genres"
+            value={movie?.genres?.map((g) => g.name).join(', ') || 'NA'}
+          />
+          <MovieInfo label="Status" value={movie?.status} />
+          <MovieInfo label="Release Date" value={movie?.release_date} />
+          <View className="flex flex-row justify-between w-1/2">
+            <MovieInfo
+              label="Budget"
+              value={`$${movie?.budget / 1_000_000} million`}
+            />
+            <MovieInfo
+              label="Revenue"
+              value={`$${Math.round(movie?.revenue / 1_000_000)} million`}
+            />
+          </View>
+          <MovieInfo
+            label="Production Companies"
+            value={
+              movie?.production_companies?.map((c) => c.name).join(', ') || 'NA'
+            }
+          />
         </View>
       </ScrollView>
     </View>
